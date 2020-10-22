@@ -3,6 +3,7 @@ import requests
 import logging
 import pprint
 import boto3
+from datetime import datetime, timedelta
 
 log = logging.getLogger("COVID")
 
@@ -26,25 +27,18 @@ def covid(event, context):
 
 
 def load(event, context):
-
+    yesterday = datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d')
     resp = requests.get(
-        'https://data.ontario.ca/api/3/action/datastore_search?resource_id=8b6d22e2-7065-4b0f-966f-02640be366f2&limit=700&filters={"school_board":"Peel%20District%20School%20Board"}'
+        'https://data.ontario.ca/api/3/action/datastore_search?resource_id=8b6d22e2-7065-4b0f-966f-02640be366f2&limit=800&filters={"school_board":"Peel%20District%20School%20Board","reported_date":"' + yesterday + '"}'
     )
     body = resp.json()
 
-    dynamodb = boto3.resource('dynamodb')
+    # table = dynamodb.Table('school-covid19-notify')
+    #
+    # for record in body["result"]["records"]:
+    #     table.put_item(Item=record)
 
-    table = dynamodb.Table('school-covid19-notify')
-
-    for record in body["result"]["records"]:
-        table.put_item(Item=record)
-
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
-
-    return response
+    return body
 
 
 if __name__ == "__main__":

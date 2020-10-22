@@ -84,8 +84,6 @@ functions:
 
   load:
     handler: handler.load
-    events:
-      - http: GET /load
     timeout: 40
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -146,14 +144,14 @@ resources: # CloudFormation template syntax
       Properties:
         TableName: school-covid19-notify
         AttributeDefinitions:
-          - AttributeName: _id
-            AttributeType: N
-          - AttributeName: reported_date
+          - AttributeName: school
+            AttributeType: S
+          - AttributeName: email
             AttributeType: S
         KeySchema:
-          - AttributeName: _id
+          - AttributeName: school
             KeyType: HASH
-          - AttributeName: reported_date
+          - AttributeName: email
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 5
