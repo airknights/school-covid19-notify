@@ -2,8 +2,10 @@ import json
 import requests
 import logging
 import pprint
-import boto3
+# import boto3
 from datetime import datetime, timedelta
+from mail import sendmail
+
 
 log = logging.getLogger("COVID")
 
@@ -41,5 +43,7 @@ def load(event, context):
     return body
 
 
-if __name__ == "__main__":
-    pprint.pprint(covid({}, {}))
+# if __name__ == "__main__":
+#     # pprint.pprint(covid({}, {}))
+#
+
