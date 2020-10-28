@@ -16,7 +16,7 @@ def sendmail(email, school):
     password = os.getenv('SMTP_PASS')
 
     message = MIMEMultipart("alternative")
-    message["Subject"] = "multipart test"
+    message["Subject"] = "Qsmnet covid 19 notification"
     message["From"] = sender_email
     message["To"] = receiver_email
 
